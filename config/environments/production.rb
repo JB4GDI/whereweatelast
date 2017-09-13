@@ -1,4 +1,8 @@
 Rails.application.configure do
+
+  # Devise requires this as part of our setup
+  config.action_mailer.default_url_options = { host: 'whereweatelast.herokuapp.com' }
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.

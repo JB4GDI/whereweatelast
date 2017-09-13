@@ -1,8 +1,18 @@
 class LedgersController < ApplicationController
 
+  # You need to be a logged in user to access new/create
+  before_action :authenticate_user!, only: [:new, :create]
+
   # This is where the logic for our index page lives
   def index
-    @ledgers = Ledger.all
+
+    # Build the ledgers if the user is logged in.  Otherwise, initialize a dummy one.
+    if current_user
+      @ledgers = current_user.ledgers.all
+    else
+      @ledgers = Ledger.new
+    end
+    
     @place = Place.new
   end
 
@@ -12,7 +22,7 @@ class LedgersController < ApplicationController
   end
 
   def create
-    Ledger.create(ledger_params)
+    current_user.ledgers.create(ledger_params)
     redirect_to root_path
   end
 

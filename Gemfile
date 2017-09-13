@@ -62,3 +62,6 @@ end
 
 # SimpleForm is great for making quick user input forms
 gem 'simple_form'
+
+# Devise is an excellent way to add user functionality
+gem 'devise'

@@ -1,7 +1,12 @@
-<% @ledgers.each do |ledger| %>
+<% if user_signed_in? %>
 
-  <div class="nice-box col-10 offset-1">
-    <h2><i><%= ledger.title %></i></h2>
-  </div>
+
+  <% @ledgers.each do |ledger| %>
+
+    <div class="nice-box col-10 offset-1">
+      <h2><i><%= ledger.title %></i></h2>
+    </div>
+
+  <% end %>
 
 <% end %>
