@@ -59,3 +59,6 @@ gem 'bootstrap', '4.0.0.alpha6'
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.3.3'
 end
+
+# SimpleForm is great for making quick user input forms
+gem 'simple_form'

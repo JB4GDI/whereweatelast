@@ -3,4 +3,7 @@ Rails.application.routes.draw do
 
   # This is our home sweet home
   root 'ledgers#index'
+
+  # Creates all the routes related to ledgers
+  resources :ledgers
 end
