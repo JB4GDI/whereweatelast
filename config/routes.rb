@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   # This is our home sweet home
   root 'ledgers#index'
 
-  # Creates all the routes related to ledgers
-  resources :ledgers
+  # Creates all the routes related to ledgers, and has children: places
+  resources :ledgers do
+    resources :places, only: :create
+  end
 end

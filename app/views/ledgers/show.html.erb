@@ -4,6 +4,54 @@
 
   <br />
 
-  <%= link_to 'Destroy this list', ledger_path(@ledger), method: :delete, data: {confirm: 'Are you sure you want to delete this?'}, class: 'btn btn-danger' %>
+  <h2>Places we ate:</h2>
+
+  <br />
+
+  <!-- Bootstrap Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newPlaceModal">
+    I just ate at a new place!
+  </button>
+
+  <!-- Bootstrap Modal, to contain the new place form -->
+  <div class="modal fade" id="newPlaceModal" tabindex="-1" role="dialog" aria-labelledby="newPlaceModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newPlaceModalLabel">Add the place you just ate at:</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <%= simple_form_for @place, url:ledger_places_path(@ledger) do |f| %>
+            <%= f.input :name, :required => true %>
+            <%= f.input :last_visited, as: :date, start_year: Date.today.year, :end_year => Date.today.year, :order => [ :day, :month, :year], :required => true %>
+            <%= f.submit "Submit where you ate", class: 'btn btn-primary float-right' %>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br />
+
+  <% @ledger.places.each do |place| %>
+
+    <div class="row">
+      <div class="col"><%= place.name %> (<%= link_to 'We just ate here!', '#' %>)</div>
+      <div class="col"><%= place.last_visited %></div>
+      <div class="col"><%= place.minutes_away %> minutes away</div>
+
+    </div>
+
+  <% end %>
+
+  <br />
+
+  <%= link_to 'Destroy this whole list', ledger_path(@ledger), method: :delete, data: {confirm: 'Are you sure you want to delete this?'}, class: 'btn btn-danger' %>
 
 </div>
+

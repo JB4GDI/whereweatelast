@@ -1,7 +1,7 @@
 class LedgersController < ApplicationController
 
-  # You need to be a logged in user to access new/create
-  before_action :authenticate_user!, only: [:new, :create]
+  # You need to be a logged in user to access new/create/destroy
+  before_action :authenticate_user!, only: [:new, :create, :destroy]
 
   # This is where the logic for our index page lives
   def index
@@ -28,10 +28,17 @@ class LedgersController < ApplicationController
 
   def show
     @ledger = Ledger.find(params[:id])
+    @place = Place.new
   end
 
   def destroy
     @ledger = Ledger.find(params[:id])
+
+    # Make sure the correct user is logged in, or don't let them continue. Can't have them destroying other people's ledgers
+    if @ledger.user != current_user
+      return render text: 'Not Allowed', status: :forbidden
+    end
+
     @ledger.destroy
     redirect_to root_path
   end
