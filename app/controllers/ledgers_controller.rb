@@ -8,12 +8,17 @@ class LedgersController < ApplicationController
 
     # Build the ledgers if the user is logged in.  Otherwise, initialize a dummy one.
     if current_user
-      @ledgers = current_user.ledgers.all
+      @ledger = current_user.ledgers.first
+      @place = Place.new
+
+      
+      
     else
-      @ledgers = Ledger.new
+      @ledger = Ledger.new
+      @place = Place.new
     end
     
-    @place = Place.new
+    
   end
 
   def new

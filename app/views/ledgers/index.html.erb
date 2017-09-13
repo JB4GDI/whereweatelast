@@ -2,19 +2,74 @@
 <!-- We only display things here if there's a logged in user -->
 <% if user_signed_in? %>
 
-  <% @ledgers.each do |ledger| %>
+  <div class="nice-box col-10 offset-1">
 
-    <div class="nice-box col-10 offset-1">
-      <h2><i><%= link_to ledger.title, ledger_path(ledger) %></i></h2>
+
+  <!-- Bootstrap Modal, to contain the new place form -->
+  <div class="modal fade" id="newPlaceModal" tabindex="-1" role="dialog" aria-labelledby="newPlaceModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newPlaceModalLabel">Add the place you just ate at</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <%= simple_form_for @place, url:ledger_places_path(@ledger) do |f| %>
+            <%= f.input :name, :required => true %>
+            <%= f.input :last_visited, as: :date, start_year: Date.today.year, :end_year => Date.today.year, :order => [ :day, :month, :year], :required => true %>
+            <%= f.input :minutes_away, :required => true %>
+            <%= f.submit "Submit where you ate", class: 'btn btn-primary float-right' %>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br />
+
+  <% @ledger.places.order("name ASC").each do |place| %>
+
+    <div class="row">
+      <div class="col"><%= place.name %> (<%= link_to 'We just ate here!', justatehere_place_path(place) %>)</div>
+      <div class="col"><%= place.last_visited %></div>
+      <div class="col"><%= place.minutes_away %> minutes away</div>
+
     </div>
 
   <% end %>
 
+  <br />
+  <br />
+
+  <!-- Bootstrap Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newPlaceModal">
+    We just ate at a brand new place!
+  </button>
+
+</div>
+
 <% else %>
 
+  <!-- Show some basic information if no one is signed in -->
+
   <div class="nice-box col-10 offset-1">
-    <p>Please <a href=new_user_registration_path>create a new account</a> to use this application.</p>
-    <p>Or <a href=new_user_session_path>log in</a> with the credentials testing@testing.testing / password1</p>
+
+    <h2>About this tool</h2>
+
+    <br />
+
+    <p>When my wife and I need to go out for food, making a decision is always super hard.  There's so much good food around, and choice overload always kicks in.  I figured it would be helpful to create a list at home, that had all the good food places listed, and the date we last visited there.  This way, we can look at the places we haven't been to in a while, and just pick one of that small number.</p>
+
+    <p>This tool is the digital version of that paper list.</p>
+
+    <p>If you'd like to see a list that's pre-populated, simply <a href='<%= new_user_session_path %>'>log in</a> with the credentials testing@testing.testing / password1</p>
+
+    <p>Or, you can <a href='<%= new_user_registration_path %>'>create a new account</a> and feel free to play around and make your own list!</p>
+
   </div>
 
 <% end %>

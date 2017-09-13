@@ -9,4 +9,11 @@ Rails.application.routes.draw do
   resources :ledgers do
     resources :places, only: :create
   end
+
+  resources :places do
+    member do
+      get 'justatehere'
+    end
+  end
+
 end

@@ -10,8 +10,24 @@ class PlacesController < ApplicationController
     #TODO: Do we have to merge this to a user?
     @ledger.places.create(place_params)
 
-    # Bring us right back to the parent ledger when done
-    redirect_to ledger_path(@ledger)
+    # Bring us right back to the main list
+    redirect_to root_path
+  end
+
+  def show
+    @place = Place.find(params[:id])
+  end
+
+  # If we just ate here, we simply want to update this record in the database to have today's date
+  def justatehere
+
+    @place = Place.find(params[:id])
+
+    @place.update_attribute(:last_visited, Date.today)
+
+    # Bring us right back to the main list
+    redirect_to root_path
+
   end
 
   private
