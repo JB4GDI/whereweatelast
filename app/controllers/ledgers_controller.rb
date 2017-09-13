@@ -16,13 +16,23 @@ class LedgersController < ApplicationController
     @place = Place.new
   end
 
-  # Logic for creating new ledgers
   def new
     @ledger = Ledger.new
   end
 
   def create
+    # We want to make sure a ledger is tied to the user who just created it
     current_user.ledgers.create(ledger_params)
+    redirect_to root_path
+  end
+
+  def show
+    @ledger = Ledger.find(params[:id])
+  end
+
+  def destroy
+    @ledger = Ledger.find(params[:id])
+    @ledger.destroy
     redirect_to root_path
   end
 

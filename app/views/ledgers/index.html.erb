@@ -1,12 +1,20 @@
-<% if user_signed_in? %>
 
+<!-- We only display things here if there's a logged in user -->
+<% if user_signed_in? %>
 
   <% @ledgers.each do |ledger| %>
 
     <div class="nice-box col-10 offset-1">
-      <h2><i><%= ledger.title %></i></h2>
+      <h2><i><%= link_to ledger.title, ledger_path(ledger) %></i></h2>
     </div>
 
   <% end %>
+
+<% else %>
+
+  <div class="nice-box col-10 offset-1">
+    <p>Please <a href=new_user_registration_path>create a new account</a> to use this application.</p>
+    <p>Or <a href=new_user_session_path>log in</a> with the credentials testing@testing.testing / password1</p>
+  </div>
 
 <% end %>
